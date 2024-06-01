@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+   <%- include("./partials/head.ejs") %>
+    <title>Blog</title>
+    <style>
+        .containerc{
+            display: flex;
+            flex-direction: row;
+            justify-content:center;
+            align-items: center;
+        }
+        #content{
+          width: 80vw;
+        }
+        .cid{
+          display: flex;
+          align-items: center;
+        }
+    </style>
+  </head>
+  <body>
+    <%- include("./partials/nav") %>
+   
+    <div class="container mt-4">
+        <h1><%= blog.title %></h1>
+        <img src="<%= blog.coverimageurl %>" alt="<%= blog.title %>" width="700px" height="500px">
+        <pre ><%= blog.body %></pre>
+
+    </div>
+    <div class="containerc mt-4">
+       <img src="<%=blog.createdBy.profileimageurl  %>" alt="<%= blog.createdBy.fullname %>" width="50px"
+       height="50px">
+       <h4><%= blog.createdBy.fullname %></h4>
+    </div>
+    <div class="container mt-3">
+      <h1>Comments (<%= comments.length %>)</h1>
+      <% comments.forEach((comment) => { %>
+        <div class="cid">
+          <img src="<%= comment.createdBy.profileimageurl  %>" alt="<%= comment.createdBy.fullname %>" width="40px"
+          height="40px" id="cid"/>
+          <h5><%= comment.createdBy.fullname %></h5>
+        </div>
+       
+         <pre><%= comment.content %></pre>
+        
+      <% }) %>
+    
+    </div>
+    <% if (locals.user) { %>
+      <div class="container mt-4">
+        <form action="/blog/comment/<%= blog._id %>" method="post">
+          <h1>Comments</h1>
+          <input type="text" name="content" class="form-control" id="content" placeholder="Enter your comment" height="1.4rem">
+          <button type="submit" class="mt-2 btn btn-primary">Post</button>
+        </form>
+     </div>
+    <% } %>
+   
+    <%- include("./partials/scripts.ejs") %>
+  </body>
+</html>
