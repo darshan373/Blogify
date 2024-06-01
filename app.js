@@ -1,6 +1,7 @@
+require('dotenv').config()
 const express=require("express")
 const app=express();
-const port=8000;
+const PORT= process.env.PORT;
 const path=require("path")
 const userRouter=require("./routes/user")
 const blogRouter=require("./routes/blog")
@@ -11,7 +12,7 @@ const {Blog}=require("./models/blog")
 const {connectmongoDB}=require("./connection/connect");
 
 const { checkForAuthenticationCookie } = require("./middlewares/authentication");
-connectmongoDB(process.env.MONGODB ?? "mongodb://localhost:27017/Blogify").then(() =>
+connectmongoDB(process.env.MONGO_URL).then(() =>
     console.log("Mongodb connected")
   ).catch((err)=> console.log("error connecting DB"));
 app.set("view engine","ejs")
@@ -39,6 +40,6 @@ app.get("/",async(req,res)=>{
 
 
 
-app.listen(port,()=>{
-    console.log("Server started at "+port)
+app.listen(PORT,()=>{
+    console.log("Server started at "+PORT)
 })
